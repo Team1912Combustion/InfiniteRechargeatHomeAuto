@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 public class RobotContainer {
   private DriveTrain drive = new DriveTrain();
   private Trajectory trajectory = new Trajectory();
-  private Command circleBack = new CircleBack();
  
   public RobotContainer() {
     configureButtonBindings();
@@ -27,12 +26,13 @@ public class RobotContainer {
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 
-  public Command getAutonomousCommand() {
+  public Command oldAutonomousCommand() {
     trajectory = CirclePath.getTrajectory();
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 
-  public Command newgetAutonomousCommand() {
+  public Command getAutonomousCommand() {
+    Command circleBack = new CircleBack();
     return circleBack;
   }
 

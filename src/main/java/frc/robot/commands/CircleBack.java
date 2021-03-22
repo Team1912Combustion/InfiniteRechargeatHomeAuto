@@ -24,11 +24,13 @@ public class CircleBack extends SequentialCommandGroup {
 
   public Command driveHalfCircle() {
     trajectory = HalfCircle.getTrajectory();
+    System.out.println("driveHalfCircle have trajectory...");
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 
   public Command driveHalfCircleReverse() {
     trajectory = HalfCircleReverse.getTrajectory();
+    System.out.println("driveHalfCircleRev have trajectory...");
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 

@@ -46,7 +46,7 @@ public class DriveTrajectory {
         drive);
 
     drive.resetOdometry(trajectory.getInitialPose());
-
+    System.out.println("Ramsete set, odom reset, let's go");
     return command.andThen(() -> drive.tankDriveVolts(0, 0));
 
   }
