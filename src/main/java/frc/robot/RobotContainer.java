@@ -5,13 +5,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.auto.BarrelPath;
-import frc.robot.auto.DriveTrajectory;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.*;
+import frc.robot.auto.*;
+import frc.robot.commands.*;
+
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 
 public class RobotContainer {
-  private final DriveTrain drive = new DriveTrain();
+  private DriveTrain drive = new DriveTrain();
+  private Trajectory trajectory = new Trajectory();
+  private Command circleBack = new CircleBack();
  
   public RobotContainer() {
     configureButtonBindings();
@@ -19,8 +22,13 @@ public class RobotContainer {
 
   private void configureButtonBindings() {}
 
-  public Command getAutonomousCommand() {
-    Trajectory barrelPath = BarrelPath.barrelPath;
-    return DriveTrajectory.driveTrajectory(drive, barrelPath);
+  public Command oldgetAutonomousCommand() {
+    trajectory = BarrelPath.getTrajectory();
+    return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
+
+  public Command getAutonomousCommand() {
+    return circleBack;
+  }
+
 }

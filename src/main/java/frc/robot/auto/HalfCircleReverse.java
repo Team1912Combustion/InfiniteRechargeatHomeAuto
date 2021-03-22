@@ -22,65 +22,38 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
 
-public class BarrelPath {
+public class HalfCircleReverse {
 
-  static Trajectory barrelPath;
+  static Trajectory trajectory;
 
   public static Trajectory getTrajectory() {
-	return barrelPath;
+	return trajectory;
   }
 
   public static void init() {
-	var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
+	  var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
         DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 5);
 
     TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MaxSpeedMetersPerSecond, AutoConstants.MaxAccelerationMetersPerSecondSquared)
     .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
     .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kmaxCentripetal));
 
-	/*
-	circlePath = TrajectoryGenerator.generateTrajectory(
-	    new Pose2d(0, 0, new Rotation2d(0)),
-	    List.of(new Translation2d(2, 0),
-	    new Translation2d(2, 2),
-	    new Translation2d(0, 2),
-	    new Translation2d(0, 0),
-	    new Translation2d(2, 0),
-	    new Translation2d(2, 2),
-	    new Translation2d(0, 2),
-	    new Translation2d(0, 0),
-	    new Translation2d(2, 0)),
-	    new Pose2d(2.0, 2.0, new Rotation2d(Units.degreesToRadians(135.))),
-		config);
-		*/
+    config.setReversed(true);
 
-    barrelPath =
-	TrajectoryGenerator.generateTrajectory(
-	    new Pose2d(1., -2.2, new Rotation2d(0)),
-	    List.of(new Translation2d(3.2, -2.2),
-	    new Translation2d(3.8, -2.3),
-	    new Translation2d(4.3, -3.1),
-	    new Translation2d(3.8, -3.6),
-	    new Translation2d(3.4, -2.9),
-	    new Translation2d(4.3, -2.4),
-	    new Translation2d(6.0, -2.1),
-	    new Translation2d(6.8, -1.2),
-	    new Translation2d(6.0, -0.8),
-	    new Translation2d(5.6, -1.5),
-	    new Translation2d(6.2, -2.8),
-	    new Translation2d(7.4, -3.5),
-	    new Translation2d(8.2, -2.8),
-	    new Translation2d(6.4, -2.3),
-	    new Translation2d(4.8, -2.0),
-	    new Translation2d(2.0, -2.0)),
-	    new Pose2d(1.0, -1.9, new Rotation2d(Units.degreesToRadians(180))),
-	    config);
+    trajectory = TrajectoryGenerator.generateTrajectory(
+	    new Pose2d(2., 2., new Rotation2d(90.)),
+	    List.of(
+	    new Translation2d(1., 1.7321),
+      new Translation2d(1.414, 1.414),
+      new Translation2d(1.7321, 1.)),
+	    new Pose2d(2.0, 0.0, new Rotation2d(Units.degreesToRadians(0.))),
+    config);
 
     try {
-      //FileWriter fileWriter = new FileWriter("/home/lvuser/barrelPathTrajectory.txt");
-      FileWriter fileWriter = new FileWriter("/tmp/barrelPathTrajectory.txt");
+      //FileWriter fileWriter = new FileWriter("/home/lvuser/halfCircleRevTrajectory.txt");
+      FileWriter fileWriter = new FileWriter("/tmp/halfCircleRevTrajectory.txt");
       PrintWriter printWriter = new PrintWriter(fileWriter);
-      printWriter.print(barrelPath.toString());
+      printWriter.print(trajectory.toString());
       printWriter.close();
     } catch (IOException e) {
       e.printStackTrace();
