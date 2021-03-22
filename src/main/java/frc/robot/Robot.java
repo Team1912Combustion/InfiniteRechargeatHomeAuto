@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.auto.BarrelPath;
+import frc.robot.auto.*;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -16,8 +16,15 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
     BarrelPath.init();
+    System.out.println("done init barrel)");
+    CirclePath.init();
+    System.out.println("done init circle)");
+    HalfCircle.init();
+    System.out.println("done init half)");
+    HalfCircleReverse.init();
+    System.out.println("done init halfRev)");
+    m_robotContainer = new RobotContainer();
   }
 
   @Override

@@ -31,20 +31,20 @@ public class HalfCircle {
   }
 
   public static void init() {
-	var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
+	  var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
         DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 5);
 
     TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MaxSpeedMetersPerSecond, AutoConstants.MaxAccelerationMetersPerSecondSquared)
     .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
     .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kmaxCentripetal));
 
-	trajectory = TrajectoryGenerator.generateTrajectory(
-	    new Pose2d(2, 0, new Rotation2d(0)),
+	  trajectory = TrajectoryGenerator.generateTrajectory(
+	    new Pose2d(0, 2, new Rotation2d(0)),
 	    List.of(
-      new Translation2d(1.7321, 1.),
+      new Translation2d(1., 1.7321),
       new Translation2d(1.414, 1.414),
-	    new Translation2d(1., 1.7321)),
-	    new Pose2d(0.0, 2.0, new Rotation2d(Units.degreesToRadians(90.))),
+	    new Translation2d(1.7321, 1.)),
+	    new Pose2d(2.0, .0, new Rotation2d(Units.degreesToRadians(-90.))),
 		config);
 
     try {
@@ -55,7 +55,7 @@ public class HalfCircle {
       printWriter.close();
     } catch (IOException e) {
       e.printStackTrace();
-	}
+	  }
   }
 
 }

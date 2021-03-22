@@ -22,12 +22,17 @@ public class RobotContainer {
 
   private void configureButtonBindings() {}
 
-  public Command oldgetAutonomousCommand() {
+  public Command oldergetAutonomousCommand() {
     trajectory = BarrelPath.getTrajectory();
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 
   public Command getAutonomousCommand() {
+    trajectory = CirclePath.getTrajectory();
+    return DriveTrajectory.driveTrajectory(drive, trajectory);
+  }
+
+  public Command newgetAutonomousCommand() {
     return circleBack;
   }
 

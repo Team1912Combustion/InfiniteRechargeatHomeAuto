@@ -12,8 +12,8 @@ import frc.robot.auto.*;
 
 public class CircleBack extends SequentialCommandGroup {
 
-  private DriveTrain drive = new DriveTrain();
-  private Trajectory trajectory = new Trajectory();
+  public DriveTrain drive = new DriveTrain();
+  public Trajectory trajectory = new Trajectory();
 
   public CircleBack() {
     addCommands(
@@ -28,7 +28,6 @@ public class CircleBack extends SequentialCommandGroup {
   }
 
   public Command driveHalfCircleReverse() {
-    Trajectory trajectory = new Trajectory();
     trajectory = HalfCircleReverse.getTrajectory();
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
