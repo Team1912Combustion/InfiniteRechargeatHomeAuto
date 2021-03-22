@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.auto.BarrelPath;
 import frc.robot.auto.DriveTrajectory;
 import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 
 public class RobotContainer {
   private final DriveTrain drive = new DriveTrain();
@@ -19,6 +20,7 @@ public class RobotContainer {
   private void configureButtonBindings() {}
 
   public Command getAutonomousCommand() {
-    return DriveTrajectory.driveTrajectory(drive, BarrelPath.barrelPath);
+    Trajectory barrelPath = BarrelPath.barrelPath;
+    return DriveTrajectory.driveTrajectory(drive, barrelPath);
   }
 }

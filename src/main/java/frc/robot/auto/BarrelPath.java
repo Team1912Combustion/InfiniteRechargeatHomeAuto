@@ -74,7 +74,8 @@ public class BarrelPath {
 	    config);
 
     try {
-      FileWriter fileWriter = new FileWriter("/home/lvuser/barrelPathTrajectory.txt");
+      //FileWriter fileWriter = new FileWriter("/home/lvuser/barrelPathTrajectory.txt");
+      FileWriter fileWriter = new FileWriter("/tmp/barrelPathTrajectory.txt");
       PrintWriter printWriter = new PrintWriter(fileWriter);
       printWriter.print(barrelPath.toString());
       printWriter.close();
