@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+//import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -13,34 +14,45 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
-  /** Creates a new DriveTrain. */
-WPI_TalonFX leftFront = new WPI_TalonFX(DriveConstants.LeftFront);
-WPI_TalonFX leftRear = new WPI_TalonFX(DriveConstants.LeftRear);
-WPI_TalonFX rightFront = new WPI_TalonFX(DriveConstants.RightFront);
-WPI_TalonFX rightRear = new WPI_TalonFX(DriveConstants.RightRear);
-SpeedControllerGroup leftSide = new SpeedControllerGroup(leftFront, leftRear);
-SpeedControllerGroup rightSide = new SpeedControllerGroup(rightFront, rightRear);
-DifferentialDrive drive = new DifferentialDrive(leftSide, rightSide);
-AHRS ahrs = new AHRS(SPI.Port.kMXP);
-DifferentialDriveOdometry odometry;
+  WPI_TalonFX leftFront = new WPI_TalonFX(DriveConstants.LeftFront);
+  WPI_TalonFX leftRear = new WPI_TalonFX(DriveConstants.LeftRear);
+  WPI_TalonFX rightFront = new WPI_TalonFX(DriveConstants.RightFront);
+  WPI_TalonFX rightRear = new WPI_TalonFX(DriveConstants.RightRear);
+  SpeedControllerGroup leftSide = new SpeedControllerGroup(leftFront, leftRear);
+  SpeedControllerGroup rightSide = new SpeedControllerGroup(rightFront, rightRear);
+  DifferentialDrive drive = new DifferentialDrive(leftSide, rightSide);
+  AHRS navx = new AHRS(SPI.Port.kMXP);
+  DifferentialDriveOdometry odometry;
 
- public DriveTrain() {
-  leftFront.setInverted(false);
-  leftRear.setInverted(false);
-  rightFront.setInverted(false);
-  rightRear.setInverted(false);    
+  public DriveTrain() {
+    leftFront.setInverted(false);
+    leftRear.setInverted(false);
+    rightFront.setInverted(true);
+    rightRear.setInverted(true);
+    //leftFront.setNeutralMode(NeutralMode.Brake);
+    //leftRear.setNeutralMode(NeutralMode.Brake);
+    //rightFront.setNeutralMode(NeutralMode.Brake);
+    //rightRear.setNeutralMode(NeutralMode.Brake);
+    odometry = new DifferentialDriveOdometry(getRotation());
+    resetOdometry(new Pose2d());
   }
 
   @Override
   public void periodic() {
-    odometry.update(myRotation(), leftFront.getSelectedSensorPosition()*DriveConstants.Conversion,
+    odometry.update(getRotation(), leftFront.getSelectedSensorPosition()*DriveConstants.Conversion,
     rightFront.getSelectedSensorPosition()*DriveConstants.Conversion);
-        // This method will be called once per scheduler run
+    SmartDashboard.putNumber("my X Pose:",odometry.getPoseMeters().getTranslation().getX());
+    SmartDashboard.putNumber("my Y Pose:",odometry.getPoseMeters().getTranslation().getY());
+    SmartDashboard.putNumber("my Heading:",getHeading());
+    SmartDashboard.putNumber("my leftEnc:",leftFront.getSelectedSensorPosition());
+    SmartDashboard.putNumber("my rightEnc:",rightFront.getSelectedSensorPosition());
   }
+
   public Pose2d getPose(){
     return odometry.getPoseMeters();
   }
@@ -52,11 +64,8 @@ DifferentialDriveOdometry odometry;
 
   public void resetOdometry(Pose2d pose){
     resetEncoders();
-    odometry.resetPosition(pose, ahrs.getRotation2d());
-  }
-
-  public void arcadeDrive (double fwd, double rot){
-    drive.arcadeDrive(fwd, rot);
+    zeroHeading();
+    odometry.resetPosition(pose, navx.getRotation2d());
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts){
@@ -70,33 +79,15 @@ DifferentialDriveOdometry odometry;
     rightFront.setSelectedSensorPosition(0);
   }
 
-  public double getAverageEncoderDistance(){
-    return ((leftFront.getSelectedSensorPosition()+rightFront.getSelectedSensorPosition())/2.0)
-    *DriveConstants.Conversion;
-  }
-
-  /**
-   * Set the max output of the drive. 
-   * @param setMaxOutput
-   */
-  public void setMaxOutput(double maxOutput){
-    drive.setMaxOutput(maxOutput);
-      }
-
   public void zeroHeading(){
-    //ahrs.reset();
-    ahrs.zeroYaw();
+    navx.zeroYaw();
   }
 
   public double getHeading(){
-    //return Math.IEEEremainder(ahrs.getAngle(), 350).getRotation2d().getDegrees();
-    return Math.IEEEremainder(ahrs.getAngle(), 350);
+    return navx.getRotation2d().getDegrees();
   }
 
-  public Rotation2d myRotation(){
-    return Rotation2d.fromDegrees(ahrs.getYaw());
-  }
-  public double getTurnRate(){
-    return ahrs.getRate();
+  public Rotation2d getRotation(){
+    return navx.getRotation2d();
   }
 }

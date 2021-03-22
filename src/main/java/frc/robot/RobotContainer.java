@@ -4,11 +4,13 @@
 
 package frc.robot;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -23,79 +25,101 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
   private final DriveTrain drive = new DriveTrain();
  
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the button bindings
     configureButtonBindings();
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {}
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
 
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
-    DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 10);
+    DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 5);
 
     TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MaxSpeedMetersPerSecond, AutoConstants.MaxAccelerationMetersPerSecondSquared)
-    .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint);
-    
+    .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
+    .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kmaxCentripetal));
+
     Trajectory exampleTrajectory =
         TrajectoryGenerator.generateTrajectory(
-            // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
-            // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-            // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(3, 0, new Rotation2d(0)),
-            // Pass config
+            List.of(new Translation2d(2, 0),
+            new Translation2d(2, 2),
+            new Translation2d(0, 2),
+            new Translation2d(0, 0),
+            new Translation2d(2, 0),
+            new Translation2d(2, 2),
+            new Translation2d(0, 2),
+            new Translation2d(0, 0),
+            new Translation2d(2, 0)),
+            new Pose2d(2.0, 2.0, new Rotation2d(Units.degreesToRadians(135.))),
             config);
 
-            RamseteCommand command =
-            new RamseteCommand(
-                exampleTrajectory,
-                drive::getPose,
-                new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-                new SimpleMotorFeedforward(
-                    DriveConstants.kS,
-                    DriveConstants.kV,
-                    DriveConstants.kA),
-                DriveConstants.kDriveKinematics,
-                drive::getWheelSpeeds,
-                new PIDController(DriveConstants.kP, 0, 0),
-                new PIDController(DriveConstants.kP, 0, 0),
-                // RamseteCommand passes volts to the callback
-                drive::tankDriveVolts,
-                drive);
-    
-        // Reset odometry to the starting pose of the trajectory.
-        drive.resetOdometry(exampleTrajectory.getInitialPose());
-    
-        // Run path following command, then stop at the end.
-        return command.andThen(() -> drive.tankDriveVolts(0, 0));
-    // An ExampleCommand will run in autonomous
-  
+    Trajectory barrelPath =
+        TrajectoryGenerator.generateTrajectory(
+            new Pose2d(1., -2.2, new Rotation2d(0)),
+            List.of(new Translation2d(3.2, -2.2),
+            new Translation2d(3.8, -2.3),
+            new Translation2d(4.3, -3.1),
+            new Translation2d(3.8, -3.6),
+            new Translation2d(3.4, -2.9),
+            new Translation2d(4.3, -2.4),
+            new Translation2d(6.0, -2.1),
+            new Translation2d(6.8, -1.2),
+            new Translation2d(6.0, -0.8),
+            new Translation2d(5.6, -1.5),
+            new Translation2d(6.2, -2.8),
+            new Translation2d(7.4, -3.5),
+            new Translation2d(8.2, -2.8),
+            new Translation2d(6.4, -2.3),
+            new Translation2d(4.8, -2.0),
+            new Translation2d(2.0, -2.0)),
+            new Pose2d(1.0, -1.9, new Rotation2d(Units.degreesToRadians(180))),
+            config);
+
+    try {
+      FileWriter fileWriter = new FileWriter("/home/lvuser/barrelPathTrajectory.txt");
+      PrintWriter printWriter = new PrintWriter(fileWriter);
+      printWriter.print(barrelPath.toString());
+      printWriter.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    RamseteController disabledRamsete = new RamseteController() {
+      @Override
+      public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters,
+        double angularVelocityRefRadiansPerSecond) {
+          return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
+      }
+    };
+
+    RamseteCommand command =
+        new RamseteCommand(
+        barrelPath,
+        drive::getPose,
+        new RamseteController(AutoConstants.kRamseteB,AutoConstants.kRamseteZeta),
+        // disabledRamsete,
+        new SimpleMotorFeedforward(
+            DriveConstants.kS,
+            DriveConstants.kV,
+            DriveConstants.kA),
+        DriveConstants.kDriveKinematics,
+        drive::getWheelSpeeds,
+        new PIDController(DriveConstants.kP, 0, 0),
+        new PIDController(DriveConstants.kP, 0, 0),
+        drive::tankDriveVolts,
+        drive);
+
+    drive.resetOdometry(barrelPath.getInitialPose());
+
+    return command.andThen(() -> drive.tankDriveVolts(0, 0));
+
   }
 }
