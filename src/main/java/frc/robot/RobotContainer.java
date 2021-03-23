@@ -36,9 +36,18 @@ public class RobotContainer {
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 
-  public Command getAutonomousCommand() {
+  public Command agetAutonomousCommand() {
     Command circleBack = new CircleBack();
     return circleBack;
+  }
+
+  public Command JgetAutonomousCommand() {
+    trajectory = UnnamedJSON.getTrajectory();
+    return DriveTrajectory.driveTrajectory(drive, trajectory);
+  }
+  public Command getAutonomousCommand() {
+    trajectory = UnnamedPath.getTrajectory();
+    return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 
 }

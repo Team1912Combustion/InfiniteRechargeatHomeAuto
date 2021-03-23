@@ -37,7 +37,7 @@ public static final class DriveConstants {
   }
 
   public static final class AutoConstants {
-    public static final double MaxSpeedMetersPerSecond = 1.0;
+    public static final double MaxSpeedMetersPerSecond = 3.0;
     public static final double MaxAccelerationMetersPerSecondSquared = 2.0;
     public static final double kRamseteB = 2.0;
     public static final double kRamseteZeta = 0.7;

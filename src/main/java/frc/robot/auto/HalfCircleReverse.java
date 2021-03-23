@@ -41,17 +41,17 @@ public class HalfCircleReverse {
     config.setReversed(true);
 
     trajectory = TrajectoryGenerator.generateTrajectory(
-	    new Pose2d(2., 0., new Rotation2d(Units.degreesToRadians(-90.))),
+	    new Pose2d(2., 2., new Rotation2d(Units.degreesToRadians(90.))),
 	    List.of(
-      new Translation2d(1.7321, 1.),
+      new Translation2d(1.7321, 1.7321),
       new Translation2d(1.414, 1.414),
-	    new Translation2d(1., 1.7321)),
-	    new Pose2d(0.0, 2.0, new Rotation2d(Units.degreesToRadians(0.))),
+	    new Translation2d(1., 1.)),
+	    new Pose2d(0.0, 0.0, new Rotation2d(Units.degreesToRadians(0.))),
     config);
 
     try {
-      FileWriter fileWriter = new FileWriter("/home/lvuser/halfCircleRevTrajectory.txt");
-      //FileWriter fileWriter = new FileWriter("/tmp/halfCircleRevTrajectory.txt");
+      //FileWriter fileWriter = new FileWriter("/home/lvuser/halfCircleRevTrajectory.txt");
+      FileWriter fileWriter = new FileWriter("/tmp/halfCircleRevTrajectory.txt");
       PrintWriter printWriter = new PrintWriter(fileWriter);
       printWriter.print(trajectory.toString());
       printWriter.close();
