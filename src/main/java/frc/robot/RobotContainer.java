@@ -21,8 +21,13 @@ public class RobotContainer {
 
   private void configureButtonBindings() {}
 
-  public Command oldergetAutonomousCommand() {
+  public Command othergetAutonomousCommand() {
     trajectory = BarrelPath.getTrajectory();
+    return DriveTrajectory.driveTrajectory(drive, trajectory);
+  }
+
+  public Command slalomgetAutonomousCommand() {
+    trajectory = SlalomPath.getTrajectory();
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 

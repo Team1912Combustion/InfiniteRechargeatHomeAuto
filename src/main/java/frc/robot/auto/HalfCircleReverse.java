@@ -50,8 +50,8 @@ public class HalfCircleReverse {
     config);
 
     try {
-      //FileWriter fileWriter = new FileWriter("/home/lvuser/halfCircleRevTrajectory.txt");
-      FileWriter fileWriter = new FileWriter("/tmp/halfCircleRevTrajectory.txt");
+      FileWriter fileWriter = new FileWriter("/home/lvuser/halfCircleRevTrajectory.txt");
+      //FileWriter fileWriter = new FileWriter("/tmp/halfCircleRevTrajectory.txt");
       PrintWriter printWriter = new PrintWriter(fileWriter);
       printWriter.print(trajectory.toString());
       printWriter.close();

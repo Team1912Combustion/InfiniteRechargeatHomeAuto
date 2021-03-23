@@ -17,8 +17,8 @@ public class CircleBack extends SequentialCommandGroup {
 
   public CircleBack() {
     addCommands(
-      driveHalfCircle(),
-      driveHalfCircleReverse()
+      driveHalfCircle()
+      //driveHalfCircleReverse()
       );
   }
 

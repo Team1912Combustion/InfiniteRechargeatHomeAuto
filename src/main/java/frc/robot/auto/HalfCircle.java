@@ -48,8 +48,8 @@ public class HalfCircle {
 		config);
 
     try {
-      //FileWriter fileWriter = new FileWriter("/home/lvuser/halfCircleTrajectory.txt");
-      FileWriter fileWriter = new FileWriter("/tmp/halfCircleTrajectory.txt");
+      FileWriter fileWriter = new FileWriter("/home/lvuser/halfCircleTrajectory.txt");
+      //FileWriter fileWriter = new FileWriter("/tmp/halfCircleTrajectory.txt");
       PrintWriter printWriter = new PrintWriter(fileWriter);
       printWriter.print(trajectory.toString());
       printWriter.close();

@@ -32,7 +32,7 @@ public class BarrelPath {
 
   public static void init() {
 	var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
-        DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 5);
+        DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 11);
 
     TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MaxSpeedMetersPerSecond, AutoConstants.MaxAccelerationMetersPerSecondSquared)
     .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
@@ -54,7 +54,8 @@ public class BarrelPath {
 		config);
 		*/
 
-    barrelPath =
+		/*
+    oldbarrelPath =
 	TrajectoryGenerator.generateTrajectory(
 	    new Pose2d(1., -2.2, new Rotation2d(0)),
 	    List.of(new Translation2d(3.2, -2.2),
@@ -74,11 +75,70 @@ public class BarrelPath {
 	    new Translation2d(4.8, -2.0),
 	    new Translation2d(2.0, -2.0)),
 	    new Pose2d(1.0, -1.9, new Rotation2d(Units.degreesToRadians(180))),
+		config);
+		*/
+
+		/* clean, 14s
+    barrelPath =
+	TrajectoryGenerator.generateTrajectory(
+		new Pose2d(1., -2.2, new Rotation2d(0)),
+		List.of( new Translation2d(3.2 , -2.2),
+				new Translation2d(3.8 , -2.3),
+				new Translation2d(4.6 , -2.6),
+				new Translation2d(4.8 , -3.1),
+				new Translation2d(4.4 , -3.7),
+				new Translation2d(3.7 , -3.9),
+				new Translation2d(3.2 , -3.6),
+				new Translation2d(3.1 , -2.9),
+				new Translation2d(4.3 , -2.4),
+				new Translation2d(6.1 , -2.3),
+				new Translation2d(7.2 , -1.7),
+				new Translation2d(6.9 , -1),
+				new Translation2d(6   , -.8), 
+				new Translation2d(5.3 , -1),
+				new Translation2d(5.4 , -2),
+				new Translation2d(6.1 , -3),
+				new Translation2d(7.4 , -3.8),
+				new Translation2d(8.3 , -3.6),
+				new Translation2d(8.4 , -2.6),
+				new Translation2d(7.5 , -2.1),
+				new Translation2d(6.5 , -2.1),
+				new Translation2d(4.8 , -2.1)),
+	    new Pose2d(-1.0, -2.2, new Rotation2d(Units.degreesToRadians(180))),
+		config);
+		*/
+
+    barrelPath =
+	TrajectoryGenerator.generateTrajectory(
+		new Pose2d(1., -2.2, new Rotation2d(0)),
+		List.of( new Translation2d(3.2 , -2.2),
+				new Translation2d(3.8 , -2.3),
+				new Translation2d(4.6 , -2.6),
+				new Translation2d(4.7 , -3.1),
+				new Translation2d(4.4 , -3.7),
+				new Translation2d(3.7 , -3.9),
+				new Translation2d(3.2 , -3.6),
+				new Translation2d(3.1 , -2.9),
+				new Translation2d(4.3 , -2.4),
+				new Translation2d(6.1 , -2.3),
+				new Translation2d(7.1 , -1.7),
+				new Translation2d(6.9 , -1),
+				new Translation2d(6   , -.8), 
+				new Translation2d(5.3 , -1),
+				new Translation2d(5.4 , -2),
+				new Translation2d(6.1 , -3),
+				new Translation2d(7.4 , -3.8),
+				new Translation2d(8.3 , -3.6),
+				new Translation2d(8.4 , -2.6),
+				new Translation2d(7.5 , -2.1),
+				new Translation2d(6.5 , -2.1),
+				new Translation2d(4.8 , -2.1)),
+	    new Pose2d(-1.0, -2.2, new Rotation2d(Units.degreesToRadians(180))),
 	    config);
 
     try {
-      //FileWriter fileWriter = new FileWriter("/home/lvuser/barrelPathTrajectory.txt");
-      FileWriter fileWriter = new FileWriter("/tmp/barrelPathTrajectory.txt");
+      FileWriter fileWriter = new FileWriter("/home/lvuser/barrelPathTrajectory.txt");
+      //FileWriter fileWriter = new FileWriter("/tmp/barrelPathTrajectory.txt");
       PrintWriter printWriter = new PrintWriter(fileWriter);
       printWriter.print(barrelPath.toString());
       printWriter.close();
