@@ -62,6 +62,8 @@ public class BouncePaths {
 				DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
 			}
 
+			System.out.println("have path for "+myPathName);
+
 			try {
 			  trajectoryfile = myPathName + ".txt";
 				Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);

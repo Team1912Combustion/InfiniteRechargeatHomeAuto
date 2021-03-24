@@ -159,3 +159,18 @@ imgui.ini
 
 
 # End of https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode
+src/main/deploy/barrel.txt
+src/main/deploy/barrel.wpilib.json
+src/main/deploy/bounce1.wpilib.json
+src/main/deploy/bounce2.wpilib.json
+src/main/deploy/bounce3.wpilib.json
+src/main/deploy/bounce4.txt
+src/main/deploy/bounce4.wpilib.json
+src/main/deploy/slalom.txt
+src/main/deploy/slalom.wpilib.json
+src/main/deploy/paths/barrel.wpilib.json
+src/main/deploy/paths/Bounce1.wpilib.json
+src/main/deploy/paths/Bounce2.wpilib.json
+src/main/deploy/paths/Bounce3.wpilib.json
+src/main/deploy/paths/Bounce4.wpilib.json
+src/main/deploy/paths/slalom.wpilib.json
