@@ -20,6 +20,7 @@ public class RobotContainer {
   
   public RobotContainer() {
     configureButtonBindings();
+    autoChooser.setDefaultOption("Barrel", RunBarrel());
     autoChooser.addOption("Barrel", RunBarrel());
     autoChooser.addOption("Slalom", RunSlalom());
     autoChooser.addOption("Bounce", new RunBounce());

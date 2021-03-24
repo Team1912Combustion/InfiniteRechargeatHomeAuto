@@ -7,9 +7,11 @@ package frc.robot.auto;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -95,15 +97,16 @@ public class BarrelPathWaypoints {
 	    new Pose2d(-1.0, -2.2, new Rotation2d(Units.degreesToRadians(180))),
 	    config);
 
-    try {
-      FileWriter fileWriter = new FileWriter("/home/lvuser/barrelPathTrajectory.txt");
-      //FileWriter fileWriter = new FileWriter("/tmp/barrelPathTrajectory.txt");
-      PrintWriter printWriter = new PrintWriter(fileWriter);
-      printWriter.print(trajectory.toString());
-      printWriter.close();
-    } catch (IOException e) {
-      e.printStackTrace();
+		try {
+			String trajectoryfile = "barrelWP" + ".txt";
+			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
+			FileWriter fileWriter = new FileWriter(trajectoryPath.toString());
+			PrintWriter printWriter = new PrintWriter(fileWriter);
+			printWriter.print(trajectory.toString());
+			printWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-  }
 
+  }
 }

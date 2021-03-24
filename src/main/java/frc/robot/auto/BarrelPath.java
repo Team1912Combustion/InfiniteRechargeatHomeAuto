@@ -29,7 +29,6 @@ public class BarrelPath {
 		myPathName = "barrel";
 
 		trajectoryfile = myPathName + ".wpilib.json";
-		Trajectory trajectory = new Trajectory();
 		try {
 			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
 			trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);

@@ -42,15 +42,20 @@ public class BouncePaths {
 
 		for (int step = 1; step < 5; step++)
 		{
+			System.out.println("step:");
+			System.out.println(step);
+
 			switch (step) {
 				case 1:
-					myPathName = "bounce1";
+					myPathName = "bounce1"; break;
 				case 2:
-					myPathName = "bounce2";
+					myPathName = "bounce2"; break;
 				case 3:
-					myPathName = "bounce3";
+					myPathName = "bounce3"; break;
 				case 4:
-					myPathName = "bounce4";
+					myPathName = "bounce4"; break;
+				default:
+					myPathName = "Invalid myPathName in BouncePath"; break;
 			}
 
 			trajectoryfile = myPathName + ".wpilib.json";
@@ -62,8 +67,6 @@ public class BouncePaths {
 				DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
 			}
 
-			System.out.println("have path for "+myPathName);
-
 			try {
 			  trajectoryfile = myPathName + ".txt";
 				Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
@@ -74,6 +77,20 @@ public class BouncePaths {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
+			switch (step) {
+				case 1:
+					bouncePath1 = trajectory; break;
+				case 2:
+					bouncePath2 = trajectory; break;
+				case 3:
+					bouncePath3 = trajectory; break;
+				case 4:
+					bouncePath4 = trajectory; break;
+				default:
+					System.out.println("invalid option in BouncePaths");
+			}
+			System.out.println("have path for "+myPathName);
 
 		}
 

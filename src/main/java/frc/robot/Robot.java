@@ -22,6 +22,10 @@ public class Robot extends TimedRobot {
     System.out.println("done init barrelpath");
     BouncePaths.init();
     System.out.println("done init bouncepaths");
+    BarrelPathWaypoints.init();
+    System.out.println("done init barrelWP");
+    SlalomPathWaypoints.init();
+    System.out.println("done init slalomWP");
     m_robotContainer = new RobotContainer();
   }
 

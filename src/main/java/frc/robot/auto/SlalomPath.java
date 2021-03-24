@@ -30,7 +30,6 @@ public class SlalomPath {
 		myPathName = "slalom";
 
 		trajectoryfile = myPathName + ".wpilib.json";
-		Trajectory trajectory = new Trajectory();
 		try {
 			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
 			trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
