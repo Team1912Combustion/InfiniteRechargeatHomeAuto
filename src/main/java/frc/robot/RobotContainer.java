@@ -5,49 +5,81 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 import frc.robot.auto.*;
-import frc.robot.commands.*;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 
 public class RobotContainer {
   private DriveTrain drive = new DriveTrain();
   private Trajectory trajectory = new Trajectory();
- 
+
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+  
   public RobotContainer() {
     configureButtonBindings();
+    autoChooser.addOption("Barrel", RunBarrel());
+    autoChooser.addOption("Slalom", RunSlalom());
+    autoChooser.addOption("Bounce", new RunBounce());
+    autoChooser.addOption("BarrelWP", RunBarrelWP());
+    autoChooser.addOption("SlalomWP", RunSlalomWP());
+    SmartDashboard.putData("Auto Chooser", autoChooser); 
   }
 
   private void configureButtonBindings() {}
 
-  public Command othergetAutonomousCommand() {
+  public Command RunBarrel() {
     trajectory = BarrelPath.getTrajectory();
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 
-  public Command slalomgetAutonomousCommand() {
+  public Command RunSlalom() {
     trajectory = SlalomPath.getTrajectory();
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 
-  public Command oldAutonomousCommand() {
-    trajectory = CirclePath.getTrajectory();
+  public Command RunBarrelWP() {
+    trajectory = BarrelPathWaypoints.getTrajectory();
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
 
-  public Command agetAutonomousCommand() {
-    Command circleBack = new CircleBack();
-    return circleBack;
-  }
-
-  public Command JgetAutonomousCommand() {
-    trajectory = UnnamedJSON.getTrajectory();
+  public Command RunSlalomWP() {
+    trajectory = SlalomPathWaypoints.getTrajectory();
     return DriveTrajectory.driveTrajectory(drive, trajectory);
   }
+
+  public class RunBounce extends SequentialCommandGroup {
+    public RunBounce() {
+      addCommands(
+        driveBounce1(),
+        driveBounce2(),
+        driveBounce3(),
+        driveBounce4()
+        );
+    }
+    public Command driveBounce1() {
+      trajectory = BouncePaths.getTrajectory(1);
+      return DriveTrajectory.driveTrajectory(drive, trajectory);
+    }
+    public Command driveBounce2() {
+      trajectory = BouncePaths.getTrajectory(2);
+      return DriveTrajectory.driveTrajectory(drive, trajectory);
+    }
+    public Command driveBounce3() {
+      trajectory = BouncePaths.getTrajectory(3);
+      return DriveTrajectory.driveTrajectory(drive, trajectory);
+    }
+    public Command driveBounce4() {
+      trajectory = BouncePaths.getTrajectory(4);
+      return DriveTrajectory.driveTrajectory(drive, trajectory);
+    }
+  }
+
   public Command getAutonomousCommand() {
-    trajectory = UnnamedPath.getTrajectory();
-    return DriveTrajectory.driveTrajectory(drive, trajectory);
+    // An ExampleCommand will run in autonomous
+    return autoChooser.getSelected();
   }
 
 }

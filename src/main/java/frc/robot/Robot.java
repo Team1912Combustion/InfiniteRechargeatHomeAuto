@@ -16,20 +16,12 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    //SlalomPath1.init();
-    //System.out.println("done init slalom");
-    //BarrelPath.init();
-    //System.out.println("done init barrel");
-    //CirclePath.init();
-    //System.out.println("done init circle");
-    HalfCircle.init();
-    System.out.println("done init half");
-    HalfCircleReverse.init();
-    System.out.println("done init halfRev");
-    UnnamedPath.init();
-    System.out.println("done init unnamed");
-    UnnamedJSON.init();
-    System.out.println("done init unnamedJSON");
+    SlalomPath.init();
+    System.out.println("done init slalompath");
+    BarrelPath.init();
+    System.out.println("done init barrelpath");
+    BouncePaths.init();
+    System.out.println("done init bouncepaths");
     m_robotContainer = new RobotContainer();
   }
 

@@ -22,7 +22,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
 
-public class HalfCircle {
+public class SlalomPathWaypoints {
 
   static Trajectory trajectory;
 
@@ -31,31 +31,64 @@ public class HalfCircle {
   }
 
   public static void init() {
-	  var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
-        DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 5);
+	var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
+        DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 11);
 
     TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MaxSpeedMetersPerSecond, AutoConstants.MaxAccelerationMetersPerSecondSquared)
     .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
     .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kmaxCentripetal));
 
-	  trajectory = TrajectoryGenerator.generateTrajectory(
+	/*
+	circlePath = TrajectoryGenerator.generateTrajectory(
 	    new Pose2d(0, 0, new Rotation2d(0)),
-	    List.of(
-      new Translation2d(1., 1.),
-      new Translation2d(1.414, 1.414),
-	    new Translation2d(1.7321, 1.7321)),
-	    new Pose2d(2.0, 2.0, new Rotation2d(Units.degreesToRadians(90.))),
+	    List.of(new Translation2d(2, 0),
+	    new Translation2d(2, 2),
+	    new Translation2d(0, 2),
+	    new Translation2d(0, 0),
+	    new Translation2d(2, 0),
+	    new Translation2d(2, 2),
+	    new Translation2d(0, 2),
+	    new Translation2d(0, 0),
+	    new Translation2d(2, 0)),
+	    new Pose2d(2.0, 2.0, new Rotation2d(Units.degreesToRadians(135.))),
 		config);
+		*/
+
+    trajectory =
+	TrajectoryGenerator.generateTrajectory(
+		new Pose2d(1.2, -3.9, new Rotation2d(0)),
+		List.of( new Translation2d(2.1 , -3.7),
+				new Translation2d(2.7 , -2.6),
+				new Translation2d(3.6 , -1.9),
+				new Translation2d(4.7 , -1.7),
+				new Translation2d(5.6 , -1.8),
+				new Translation2d(6.6 , -2.3),
+				new Translation2d(7.3 , -3.7),
+				new Translation2d(8.0 , -3.9),
+				new Translation2d(8.6 , -3.4),
+				new Translation2d(8.6 , -2.6),
+				new Translation2d(8.2 , -2.1),
+				new Translation2d(7.6 , -2.0),
+				new Translation2d(7.2 , -2.6), 
+				new Translation2d(6.5 , -3.7),
+				new Translation2d(5.3 , -4.0),
+				new Translation2d(4.4 , -4.0),
+				new Translation2d(3.6 , -4.0),
+				new Translation2d(3.0 , -3.7),
+				new Translation2d(2.4 , -3.1),
+				new Translation2d(2.0 , -2.6)),
+	    new Pose2d(0.8, -1.3, new Rotation2d(Units.degreesToRadians(150))),
+	    config);
 
     try {
-      //FileWriter fileWriter = new FileWriter("/home/lvuser/halfCircleTrajectory.txt");
-      FileWriter fileWriter = new FileWriter("/tmp/halfCircleTrajectory.txt");
+      FileWriter fileWriter = new FileWriter("/home/lvuser/slalomPathTrajectory.txt");
+      //FileWriter fileWriter = new FileWriter("/tmp/slalomPathTrajectory.txt");
       PrintWriter printWriter = new PrintWriter(fileWriter);
       printWriter.print(trajectory.toString());
       printWriter.close();
     } catch (IOException e) {
       e.printStackTrace();
-	  }
+	}
   }
 
 }

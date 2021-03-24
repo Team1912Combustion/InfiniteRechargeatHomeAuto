@@ -16,7 +16,11 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 
 public class BarrelPath {
 
-  static Trajectory barrelPath;
+  static Trajectory trajectory;
+
+	public static Trajectory getTrajectory() {
+		return trajectory;
+	}
 
   public static void init() {
 		String myPathName = "";
