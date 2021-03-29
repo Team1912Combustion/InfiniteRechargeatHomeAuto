@@ -5,6 +5,6 @@
   "maxAcceleration": 2.0,
   "maxCentripetalAcceleration": 3.0,
   "wheelBase": 0.5589,
-  "gameName": "Barrel Racing Path",
+  "gameName": "Galactic Search A",
   "outputDir": ".."
 }
