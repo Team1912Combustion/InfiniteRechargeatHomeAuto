@@ -22,6 +22,10 @@ public class RobotContainer {
     autoChooser.addOption("Barrel", new RunBarrel(drive));
     autoChooser.addOption("Slalom", new RunSlalom(drive));
     autoChooser.addOption("Bounce", new RunBounce(drive));
+    autoChooser.addOption("GalRedA", new RunGalRedA(drive));
+    autoChooser.addOption("GalRedB", new RunGalRedB(drive));
+    autoChooser.addOption("GalBlueA", new RunGalBlueA(drive));
+    autoChooser.addOption("GalBlueB", new RunGalBlueB(drive));
     SmartDashboard.putData("Auto Chooser", autoChooser); 
   }
 
