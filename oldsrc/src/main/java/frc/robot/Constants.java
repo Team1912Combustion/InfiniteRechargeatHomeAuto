@@ -29,7 +29,7 @@ public static final class DriveConstants {
     public static final double kV = 2.48;
     public static final double kA = 0.256;
     public static final double kP = 0; //2.26;
-    public static final double kmaxCentripetal = 1.;
+    public static final double kmaxCentripetal = 3.;
   }
 
   public static final class OIConstants {
@@ -37,8 +37,8 @@ public static final class DriveConstants {
   }
 
   public static final class AutoConstants {
-    public static final double MaxSpeedMetersPerSecond = 1.0;
-    public static final double MaxAccelerationMetersPerSecondSquared = 2.0;
+    public static final double MaxSpeedMetersPerSecond = 4.5;
+    public static final double MaxAccelerationMetersPerSecondSquared = 2.;
     public static final double kRamseteB = 2.0;
     public static final double kRamseteZeta = 0.7;
   }

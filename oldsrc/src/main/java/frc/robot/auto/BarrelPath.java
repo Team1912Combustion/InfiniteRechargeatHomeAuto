@@ -7,11 +7,9 @@ package frc.robot.auto;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -24,24 +22,64 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
 
-public class BarrelPathWaypoints {
+public class BarrelPath {
 
-  static Trajectory trajectory;
+  static Trajectory barrelPath;
 
   public static Trajectory getTrajectory() {
-	  return trajectory;
+	return barrelPath;
   }
 
   public static void init() {
-		var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
+	var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
         DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 11);
 
     TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MaxSpeedMetersPerSecond, AutoConstants.MaxAccelerationMetersPerSecondSquared)
     .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
     .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kmaxCentripetal));
 
+	/*
+	circlePath = TrajectoryGenerator.generateTrajectory(
+	    new Pose2d(0, 0, new Rotation2d(0)),
+	    List.of(new Translation2d(2, 0),
+	    new Translation2d(2, 2),
+	    new Translation2d(0, 2),
+	    new Translation2d(0, 0),
+	    new Translation2d(2, 0),
+	    new Translation2d(2, 2),
+	    new Translation2d(0, 2),
+	    new Translation2d(0, 0),
+	    new Translation2d(2, 0)),
+	    new Pose2d(2.0, 2.0, new Rotation2d(Units.degreesToRadians(135.))),
+		config);
+		*/
+
+		/*
+    oldbarrelPath =
+	TrajectoryGenerator.generateTrajectory(
+	    new Pose2d(1., -2.2, new Rotation2d(0)),
+	    List.of(new Translation2d(3.2, -2.2),
+	    new Translation2d(3.8, -2.3),
+	    new Translation2d(4.3, -3.1),
+	    new Translation2d(3.8, -3.6),
+	    new Translation2d(3.4, -2.9),
+	    new Translation2d(4.3, -2.4),
+	    new Translation2d(6.0, -2.1),
+	    new Translation2d(6.8, -1.2),
+	    new Translation2d(6.0, -0.8),
+	    new Translation2d(5.6, -1.5),
+	    new Translation2d(6.2, -2.8),
+	    new Translation2d(7.4, -3.5),
+	    new Translation2d(8.2, -2.8),
+	    new Translation2d(6.4, -2.3),
+	    new Translation2d(4.8, -2.0),
+	    new Translation2d(2.0, -2.0)),
+	    new Pose2d(1.0, -1.9, new Rotation2d(Units.degreesToRadians(180))),
+		config);
+		*/
+
 		/* clean, 14s
-    trajectory =
+    barrelPath =
 	TrajectoryGenerator.generateTrajectory(
 		new Pose2d(1., -2.2, new Rotation2d(0)),
 		List.of( new Translation2d(3.2 , -2.2),
@@ -70,9 +108,10 @@ public class BarrelPathWaypoints {
 		config);
 		*/
 
-    trajectory = TrajectoryGenerator.generateTrajectory(
-			new Pose2d(1., -2.2, new Rotation2d(0)),
-			List.of( new Translation2d(3.2 , -2.2),
+    barrelPath =
+	TrajectoryGenerator.generateTrajectory(
+		new Pose2d(1., -2.2, new Rotation2d(0)),
+		List.of( new Translation2d(3.2 , -2.2),
 				new Translation2d(3.8 , -2.3),
 				new Translation2d(4.6 , -2.6),
 				new Translation2d(4.7 , -3.1),
@@ -97,16 +136,15 @@ public class BarrelPathWaypoints {
 	    new Pose2d(-1.0, -2.2, new Rotation2d(Units.degreesToRadians(180))),
 	    config);
 
-		try {
-			String trajectoryfile = "barrelWP" + ".txt";
-			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
-			FileWriter fileWriter = new FileWriter(trajectoryPath.toString());
-			PrintWriter printWriter = new PrintWriter(fileWriter);
-			printWriter.print(trajectory.toString());
-			printWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+    try {
+      FileWriter fileWriter = new FileWriter("/home/lvuser/barrelPathTrajectory.txt");
+      //FileWriter fileWriter = new FileWriter("/tmp/barrelPathTrajectory.txt");
+      PrintWriter printWriter = new PrintWriter(fileWriter);
+      printWriter.print(barrelPath.toString());
+      printWriter.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+	}
   }
+
 }
