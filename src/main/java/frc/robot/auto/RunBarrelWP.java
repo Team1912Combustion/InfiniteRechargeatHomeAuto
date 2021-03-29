@@ -32,7 +32,11 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
 public class RunBarrelWP extends SequentialCommandGroup {
-  Trajectory trajectory;
+	Trajectory trajectory;
+
+	private static final double MaxSpeed = 4.5;
+	private static final double MaxAcceleration = 2.0;
+	private static final double MaxCentripetal = 3.;
 
   public RunBarrelWP(DriveTrain drivetrain) {
 
@@ -44,10 +48,9 @@ public class RunBarrelWP extends SequentialCommandGroup {
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
 	  DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 11);
 
-    TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MaxSpeedMetersPerSecond,
-				AutoConstants.MaxAccelerationMetersPerSecondSquared)
+    TrajectoryConfig config = new TrajectoryConfig(MaxSpeed, MaxAcceleration)
       .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
-      .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kmaxCentripetal));
+      .addConstraint(new CentripetalAccelerationConstraint(MaxCentripetal));
 
     /* clean, 14s
     trajectory = TrajectoryGenerator.generateTrajectory(

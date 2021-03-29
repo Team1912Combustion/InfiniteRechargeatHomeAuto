@@ -35,6 +35,11 @@ public class RunSlalomWP extends SequentialCommandGroup {
 
   Trajectory trajectory;
 
+  // MKS units
+  private static final double MaxSpeed = 3.;
+	private static final double MaxAcceleration = 2.0;
+	private static final double MaxCentripetal = 2.75;
+  
   public RunSlalomWP(DriveTrain drivetrain) {
 
     String myPathName = "";
@@ -45,10 +50,9 @@ public class RunSlalomWP extends SequentialCommandGroup {
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
 	  DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 11);
 
-    TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MaxSpeedMetersPerSecond,
-        AutoConstants.MaxAccelerationMetersPerSecondSquared)
+    TrajectoryConfig config = new TrajectoryConfig(MaxSpeed, MaxAcceleration)
       .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
-      .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kmaxCentripetal));
+      .addConstraint(new CentripetalAccelerationConstraint(MaxCentripetal));
 
     trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(1.2, -3.9, new Rotation2d(0)),

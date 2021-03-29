@@ -17,7 +17,7 @@ public class RobotContainer {
   
   public RobotContainer() {
     configureButtonBindings();
-    autoChooser.setDefaultOption("BarrelWP", new RunBarrelWP(drive));
+    autoChooser.setDefaultOption("GalBlueA", new RunGalBlueA(drive));
     autoChooser.addOption("SlalomWP", new RunSlalomWP(drive));
     autoChooser.addOption("Barrel", new RunBarrel(drive));
     autoChooser.addOption("Slalom", new RunSlalom(drive));

@@ -35,6 +35,10 @@ public class RunGalRedA extends SequentialCommandGroup {
 
   Trajectory trajectory;
 
+  private static final double MaxSpeed = 3.0;
+	private static final double MaxAcceleration = 2.0;
+  private static final double MaxCentripetal = 2.0;
+
   public RunGalRedA(DriveTrain drivetrain) {
 
     String myPathName = "";
@@ -45,10 +49,9 @@ public class RunGalRedA extends SequentialCommandGroup {
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
 	  DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 11);
 
-    TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MaxSpeedMetersPerSecond,
-        AutoConstants.MaxAccelerationMetersPerSecondSquared)
+    TrajectoryConfig config = new TrajectoryConfig(MaxSpeed, MaxAcceleration)
       .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
-      .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kmaxCentripetal));
+      .addConstraint(new CentripetalAccelerationConstraint(MaxCentripetal));
 
     trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0.3, -2.3, new Rotation2d(0)),
