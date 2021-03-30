@@ -17,7 +17,7 @@ public class RobotContainer {
   
   public RobotContainer() {
     configureButtonBindings();
-    autoChooser.setDefaultOption("GalBlueA", new RunGalBlueA(drive));
+    autoChooser.setDefaultOption("BarrelWP", new RunBarrelWP(drive));
     autoChooser.addOption("SlalomWP", new RunSlalomWP(drive));
     autoChooser.addOption("Barrel", new RunBarrel(drive));
     autoChooser.addOption("Slalom", new RunSlalom(drive));
@@ -33,6 +33,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return autoChooser.getSelected();
+    //return autoChooser.getSelected();
+    return new RunSlalomWP(drive);
   }
 }

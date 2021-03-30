@@ -34,9 +34,9 @@ import frc.robot.Constants.DriveConstants;
 public class RunBarrelWP extends SequentialCommandGroup {
 	Trajectory trajectory;
 
-	private static final double MaxSpeed = 4.5;
-	private static final double MaxAcceleration = 2.0;
-	private static final double MaxCentripetal = 3.;
+	private static final double MaxSpeed = 2.0;
+	private static final double MaxAcceleration = 1.0;
+	private static final double MaxCentripetal = 1.;
 
   public RunBarrelWP(DriveTrain drivetrain) {
 

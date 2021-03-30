@@ -36,9 +36,9 @@ public class RunSlalomWP extends SequentialCommandGroup {
   Trajectory trajectory;
 
   // MKS units
-  private static final double MaxSpeed = 3.;
-	private static final double MaxAcceleration = 2.0;
-	private static final double MaxCentripetal = 2.75;
+  private static final double MaxSpeed = 2.0;
+	private static final double MaxAcceleration = 1.0;
+	private static final double MaxCentripetal = 1.0;
   
   public RunSlalomWP(DriveTrain drivetrain) {
 
@@ -81,8 +81,10 @@ public class RunSlalomWP extends SequentialCommandGroup {
 
     try {
       trajectoryfile = myPathName + ".txt";
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
-      FileWriter fileWriter = new FileWriter(trajectoryPath.toString());
+      //Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
+      //FileWriter fileWriter = new FileWriter(trajectoryPath.toString());
+      String trajectoryPath = "/home/lvuser/deploy/" + trajectoryfile;
+      FileWriter fileWriter = new FileWriter(trajectoryPath);
       PrintWriter printWriter = new PrintWriter(fileWriter);
       printWriter.print(trajectory.toString());
       printWriter.close();
