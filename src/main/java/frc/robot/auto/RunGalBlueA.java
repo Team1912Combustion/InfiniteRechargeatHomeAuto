@@ -35,9 +35,9 @@ public class RunGalBlueA extends SequentialCommandGroup {
 
   Trajectory trajectory;
 
-  private static final double MaxSpeed = 3.0;
-	private static final double MaxAcceleration = 2.0;
-	private static final double MaxCentripetal = 2.0;
+  private static final double MaxSpeed = 2.0;
+	private static final double MaxAcceleration = 1.0;
+	private static final double MaxCentripetal = 1.0;
 
   public RunGalBlueA(DriveTrain drivetrain) {
 
