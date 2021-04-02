@@ -78,5 +78,16 @@ public class RunGalRedA extends SequentialCommandGroup {
       new IntakeOff(intake),
       new IntakeIn(intake)
     );
+
+    /* !!!
+    //alternative to test if IntakeOn (set the rooler speed to 0.8) needs to run in parallel with the drive
+    addCommands(
+      new IntakeOut(intake),
+      parallel(new IntakeOn(intake), m_ramsetecommand.andThen(() -> drivetrain.tankDriveVolts(0,0))),
+      new IntakeOff(intake),
+      new IntakeIn(intake)
+    );
+    !!! */
+
   }
 }
