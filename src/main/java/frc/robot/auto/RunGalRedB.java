@@ -8,26 +8,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
-import java.util.List;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
@@ -35,32 +28,19 @@ public class RunGalRedB extends SequentialCommandGroup {
 
   Trajectory trajectory;
 
-  private static final double MaxSpeed = 3.0;
-	private static final double MaxAcceleration = 2.0;
-  private static final double MaxCentripetal = 2.0;
-
-  public RunGalRedB(DriveTrain drivetrain) {
-
+  public RunGalRedB(DriveTrain drivetrain, Intake intake) {
     String myPathName = "";
     String trajectoryfile = "";
 
     myPathName = "GalRedB";
 
-    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(DriveConstants.kS,
-	  DriveConstants.kV, DriveConstants.kA), DriveConstants.kDriveKinematics, 11);
-
-    TrajectoryConfig config = new TrajectoryConfig(MaxSpeed, MaxAcceleration)
-      .setKinematics(DriveConstants.kDriveKinematics).addConstraint(autoVoltageConstraint)
-      .addConstraint(new CentripetalAccelerationConstraint(MaxCentripetal));
-
-    trajectory = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0.3, -2.3, new Rotation2d(0)),
-      List.of( new Translation2d(2.1 , -1.5),
-        new Translation2d(3.7 , -3.1),
-        new Translation2d(3.6 , -1.9),
-        new Translation2d(5.2 , -1.6)),
-      new Pose2d(8.7, -2.2, new Rotation2d(Units.degreesToRadians(-30.))),
-      config);
+    trajectoryfile = myPathName + ".wpilib.json";
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
+    }
 
     try {
       trajectoryfile = myPathName + ".txt";
@@ -69,8 +49,8 @@ public class RunGalRedB extends SequentialCommandGroup {
       PrintWriter printWriter = new PrintWriter(fileWriter);
       printWriter.print(trajectory.toString());
       printWriter.close();
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to write traj text: " + trajectoryfile, ex.getStackTrace());
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
     drivetrain.resetOdometry(trajectory.getInitialPose());
@@ -92,9 +72,11 @@ public class RunGalRedB extends SequentialCommandGroup {
       );
 
     addCommands(
-      m_ramsetecommand.andThen(() -> drivetrain.tankDriveVolts(0,0))
+      new IntakeOut(intake),
+      new IntakeOn(intake),
+      m_ramsetecommand.andThen(() -> drivetrain.tankDriveVolts(0,0)),
+      new IntakeOff(intake),
+      new IntakeIn(intake)
     );
-
   }
 }
-

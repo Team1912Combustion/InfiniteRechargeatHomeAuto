@@ -44,4 +44,14 @@ public static final class DriveConstants {
     public static final double kRamseteB = 2.0;
     public static final double kRamseteZeta = 0.7;
   }
+
+  public static final class PneumaticConstants{
+    public static final int IntakeSolenoidModule = 0;
+    public static final int[] IntakeSolenoidPorts = new int[] { 0, 1 };
+  }
+
+  public final class MotorControllers{
+    public static final int INTAKE = 4;
+  }
+
 }

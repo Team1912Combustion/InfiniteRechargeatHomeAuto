@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotContainer {
   private DriveTrain drive = new DriveTrain();
+  private Intake intake = new Intake();
 
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
   
@@ -22,10 +23,14 @@ public class RobotContainer {
     autoChooser.addOption("Barrel", new RunBarrel(drive));
     autoChooser.addOption("Slalom", new RunSlalom(drive));
     autoChooser.addOption("Bounce", new RunBounce(drive));
-    autoChooser.addOption("GalRedA", new RunGalRedA(drive));
-    autoChooser.addOption("GalRedB", new RunGalRedB(drive));
-    autoChooser.addOption("GalBlueA", new RunGalBlueA(drive));
-    autoChooser.addOption("GalBlueB", new RunGalBlueB(drive));
+    autoChooser.addOption("GalRedA", new RunGalRedA(drive, intake));
+    autoChooser.addOption("GalRedB", new RunGalRedB(drive, intake));
+    autoChooser.addOption("GalBlueA", new RunGalBlueA(drive, intake));
+    autoChooser.addOption("GalBlueB", new RunGalBlueB(drive, intake));
+    autoChooser.addOption("GalRedA", new RunGalRedA_WP(drive, intake));
+    autoChooser.addOption("GalRedB", new RunGalRedB_WP(drive, intake));
+    autoChooser.addOption("GalBlueA", new RunGalBlueA_WP(drive, intake));
+    autoChooser.addOption("GalBlueB", new RunGalBlueB_WP(drive, intake));
     SmartDashboard.putData("Auto Chooser", autoChooser); 
   }
 
@@ -35,7 +40,7 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     //return autoChooser.getSelected();
     //return new RunBarrel(drive);
-    return new RunGalRedA(drive);
+    return new RunGalRedA(drive, intake);
     //return new RunSlalom(drive);
   }
 }
