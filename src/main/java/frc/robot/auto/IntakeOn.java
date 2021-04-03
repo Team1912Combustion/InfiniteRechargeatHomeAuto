@@ -16,11 +16,12 @@ public class IntakeOn extends CommandBase {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intake.intakeRun(INTAKESPEED);
+  }
 
   @Override
   public void execute() {
-    intake.intakeRun(INTAKESPEED);
   }
 
   @Override
@@ -30,6 +31,6 @@ public class IntakeOn extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

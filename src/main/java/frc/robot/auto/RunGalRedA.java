@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.Constants.AutoConstants;
@@ -72,12 +73,17 @@ public class RunGalRedA extends SequentialCommandGroup {
       );
 
     addCommands(
+      new PrintCommand("put Intake Out"),
       new IntakeOut(intake),
+      new PrintCommand("turn Intake On"),
       new IntakeOn(intake),
+      new PrintCommand("run path"),
       m_ramsetecommand.andThen(() -> drivetrain.tankDriveVolts(0,0)),
+      new PrintCommand("turn Intake Off"),
       new IntakeOff(intake),
+      new PrintCommand("bring Intake In"),
       new IntakeIn(intake)
-    );
+      );
 
     /* !!!
     //alternative to test if IntakeOn (set the rooler speed to 0.8) needs to run in parallel with the drive
@@ -86,7 +92,7 @@ public class RunGalRedA extends SequentialCommandGroup {
       parallel(new IntakeOn(intake), m_ramsetecommand.andThen(() -> drivetrain.tankDriveVolts(0,0))),
       new IntakeOff(intake),
       new IntakeIn(intake)
-    );
+      );
     !!! */
 
   }

@@ -15,11 +15,12 @@ public class IntakeOff extends CommandBase {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intake.stop();
+  }
 
   @Override
   public void execute() {
-    intake.stop();
   }
 
   @Override
@@ -29,6 +30,6 @@ public class IntakeOff extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

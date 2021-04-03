@@ -16,15 +16,15 @@ public class IntakeOut extends CommandBase {
   }
 
   @Override
-  public void initialize() {}
-
-  @Override
-  public void execute() {
+  public void initialize() {
     m_intake.intakeOut();
   }
 
   @Override
+  public void execute() {}
+
+  @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
