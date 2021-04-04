@@ -8,26 +8,24 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 public class IntakeOn extends CommandBase {
-  private Intake intake;
-  public static final double INTAKESPEED = .8;
+  private Intake m_intake;
+  public static double INTAKESPEED = 1.;
 
   public IntakeOn(Intake intake) {
+    m_intake = intake;
     addRequirements(intake);
   }
 
   @Override
   public void initialize() {
-    intake.intakeRun(INTAKESPEED);
+    m_intake.intakeRun(INTAKESPEED);
   }
 
   @Override
-  public void execute() {
-  }
+  public void execute() {}
 
   @Override
-  public void end(boolean interrupted) {
-    intake.stop();
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {

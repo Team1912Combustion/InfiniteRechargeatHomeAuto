@@ -31,7 +31,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeRun(double speed) {
+    System.out.println("setting roller speed to ");
+    System.out.println(speed);
     m_roller.set(speed);
+    System.out.println("get roller speed at ");
+    System.out.println(m_roller.get());
   }
 
   public void intakeOut() {
@@ -42,7 +46,7 @@ public class Intake extends SubsystemBase {
     m_solenoid.set(kReverse);
   }
 
-  public void stop() {
-    m_roller.set(0);
-  }
+  //public void stop() {
+  //  m_roller.set(0);
+  //}
 }

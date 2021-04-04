@@ -40,7 +40,7 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     //return autoChooser.getSelected();
     //return new RunBarrel(drive);
-    return new RunGalRedA(drive, intake);
+    return new RunGalBlueB(drive, intake);
     //return new RunSlalom(drive);
   }
 }

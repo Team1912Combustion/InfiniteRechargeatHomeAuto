@@ -8,24 +8,24 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 public class IntakeOff extends CommandBase {
-  private Intake intake;
+  private Intake m_intake;
 
   public IntakeOff(Intake intake) {
+    m_intake = intake;
     addRequirements(intake);
   }
 
   @Override
   public void initialize() {
-    intake.stop();
+    m_intake.intakeRun(0);
   }
 
   @Override
-  public void execute() {
-  }
+  public void execute() {}
 
   @Override
   public void end(boolean interrupted) {
-    intake.stop();
+    m_intake.intakeRun(0);
   }
 
   @Override
