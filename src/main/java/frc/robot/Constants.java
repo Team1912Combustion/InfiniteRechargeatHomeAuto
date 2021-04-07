@@ -52,6 +52,11 @@ public static final class DriveConstants {
 
   public final class MotorControllers{
     public static final int INTAKE = 4;
+    public static final int ELEVATOR_1 = 9;
+    public static final int ELEVATOR_2 = 10;
+  }
+  public final class MotorSpeeds{
+    public static final double ELEVATOR_SPEED = .6;
   }
 
 }

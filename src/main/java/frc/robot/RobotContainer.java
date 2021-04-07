@@ -13,11 +13,16 @@ public class RobotContainer {
 
   private DriveTrain drive = new DriveTrain();
   private Intake intake = new Intake();
+  private Elevator elevator = new Elevator();
+  private final MoveElevator moveElevator;
 
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
   
   public RobotContainer() {
     configureButtonBindings();
+
+    moveElevator = new MoveElevator(elevator);
+    elevator.setDefaultCommand(moveElevator);
 
     autoChooser.setDefaultOption("BarrelWP", new RunBarrelWP(drive));
     autoChooser.addOption("SlalomWP", new RunSlalomWP(drive));

@@ -9,7 +9,7 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeOn extends CommandBase {
   private Intake m_intake;
-  public static double INTAKESPEED = 1.;
+  public static double INTAKESPEED = .7;
 
   public IntakeOn(Intake intake) {
     m_intake = intake;
