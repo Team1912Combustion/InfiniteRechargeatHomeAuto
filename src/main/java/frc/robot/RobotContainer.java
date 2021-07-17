@@ -60,6 +60,12 @@ public class RobotContainer {
       case 3:
         System.out.println("... run RunGalRedB");
         return new RunGalRedB(drive, intake);
+      case 4:
+        System.out.println("... run simpleForward");
+        return new RunSimpleForward(drive);
+      case 5:
+        System.out.println("... run IROS");
+        return new RunIROS(drive, intake);
       default:
         System.out.println("... no default value - run IntakeOff - this should be boring");
         return new IntakeOff(intake);

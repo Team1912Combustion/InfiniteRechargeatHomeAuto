@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    /* hardcode iPathID without the rPi sending codes */
+    iPathID = 5;
     m_autonomousCommand = m_robotContainer.getAutonomousCommand(iPathID);
 
     // schedule the autonomous command (example)
